@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Page</title>
+    <link rel="icon" type="image/png" href="/images/logo1.png">
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <style>
+        .navbar-dark {
+            background-color: #343a40;
+        }
+
+        .navbar-dark .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .navbar-dark .navbar-nav .nav-link:hover {
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .navbar-brand {
+            margin-right: auto;
+        }
+
+        .logo {
+            width: 60px;
+            height: 40px;
+        }
+        .footer {
+            background-color: #343a40;
+            color: #ffffff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .footer a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+        .hoverable:hover {
+            transform: scale(1.1);
+        }
+        body{
+            background-color: #666f78;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="file"]:focus {
+            outline: none;
+            border-color: #343a40;
+            box-shadow: 0 0 20px #343a40;
+            transition: all 0.3s ease;
+        }
+
+        .registration-container {
+            position: relative;
+            background-image: url("/images/banner_image2.jpg"); /* Replace 'your-background-image-url.jpg' with your actual image URL */
+            background-size: 100% auto;
+            background-position: center;
+        }
+
+        .registration-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9));
+            z-index: 1;
+        }
+
+        .registration-form {
+            position: relative;
+            z-index: 1;
+        }
+
+        .registration-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(5px); /* Apply blur effect only to the background image */
+        }
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        /* Hide the actual radio button */
+        .profile-icon-radio {
+            display: none;
+        }
+
+        /* Style the label to make the image look like a radio button */
+        .profile-icon-label {
+            cursor: pointer;
+            display: inline-block;
+            padding: 5px;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+
+        /* Style the image inside the label */
+        .profile-icon {
+            width: 50px;
+            height: 50px;
+        }
+
+        /* Change border color on hover */
+        .profile-icon-label:hover {
+            border-color: #007bff;
+        }
+
+        /* Change border color when the radio button is checked */
+        .profile-icon-radio:checked + .profile-icon-label {
+            border-color: #007bff;
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+
+        /* Define shaking animation */
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+
+        /* Apply shaking animation when the radio button is checked */
+        .profile-icon-radio:checked + .profile-icon-label .profile-icon {
+            animation: shake 0.5s;
+            animation-iteration-count: 1;
+        }
+
+    </style>
+</head>
+<body>
+<div class="overlay" id="overlay">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden"></span>
+    </div>
+</div>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a th:href="@{/index}" class="navbar-brand"><img class="logo" src="/images/logo1.png" alt="logo"/></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/index}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/login}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/users/new}">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/public/books}">Public Books</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container registration-container" style="padding: 180px;">
+    <div class="row justify-content-center" style="color: white">
+        <div class="col-md-5">
+            <img src="/images/register.png" style="max-width: 100px; max-height: 100px; margin-left: 120px;" alt="register_icon"/>
+            <h2 class="mb-3" style="text-align: center">Registration</h2>
+            <form th:action="@{/register}" method="post" enctype="multipart/form-data">
+                <div class="mb-3 text-center">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="mb-3 text-center">
+                    <label for="surname" class="form-label">Surname</label>
+                    <input type="text" class="form-control" id="surname" name="surname" required>
+                </div>
+                <div class="mb-3 text-center">
+                    <label for="username" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="username" name="email" required>
+                </div>
+                <div class="mb-3 text-center">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="mb-3 text-center">
+                    <label for="profilePicture" class="form-label">Choose Profile Icon</label>
+                    <div class="d-flex justify-content-center">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input profile-icon-radio" type="radio" name="profilePicture" id="profilePicture" value="cartoon.png" required>
+                            <label class="form-check-label profile-icon-label" for="profilePicture">
+                                <img src="/icons/cartoon.png" class="profile-icon" alt="icon1"/>
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input profile-icon-radio" type="radio" name="profilePicture" id="profilePicture2" value="chick.png">
+                            <label class="form-check-label profile-icon-label" for="profilePicture2">
+                                <img src="/icons/chick.png" class="profile-icon" alt="icon2"/>
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input profile-icon-radio" type="radio" name="profilePicture" id="profilePicture3" value="courier.png">
+                            <label class="form-check-label profile-icon-label" for="profilePicture3">
+                                <img src="/icons/courier.png" class="profile-icon" alt="icon3"/>
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input profile-icon-radio" type="radio" name="profilePicture" id="profilePicture4" value="donatello.png">
+                            <label class="form-check-label profile-icon-label" for="profilePicture4">
+                                <img src="/icons/donatello.png" class="profile-icon" alt="icon3"/>
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input profile-icon-radio" type="radio" name="profilePicture" id="profilePicture5" value="eye-ball.png">
+                            <label class="form-check-label profile-icon-label" for="profilePicture5">
+                                <img src="/icons/eye-ball.png" class="profile-icon" alt="icon3"/>
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input profile-icon-radio" type="radio" name="profilePicture" id="profilePicture6" value="eyeglases.png">
+                            <label class="form-check-label profile-icon-label" for="profilePicture6">
+                                <img src="/icons/eyeglases.png" class="profile-icon" alt="icon3"/>
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input profile-icon-radio" type="radio" name="profilePicture" id="profilePicture7" value="foot-clan.png">
+                            <label class="form-check-label profile-icon-label" for="profilePicture7">
+                                <img src="/icons/foot-clan.png" class="profile-icon" alt="icon3"/>
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input profile-icon-radio" type="radio" name="profilePicture" id="profilePicture8" value="rainbow.png">
+                            <label class="form-check-label profile-icon-label" for="profilePicture8">
+                                <img src="/icons/rainbow.png" class="profile-icon" alt="icon3"/>
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input profile-icon-radio" type="radio" name="profilePicture" id="profilePicture9" value="set.png">
+                            <label class="form-check-label profile-icon-label" for="profilePicture9">
+                                <img src="/icons/set.png" class="profile-icon" alt="icon3"/>
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input profile-icon-radio" type="radio" name="profilePicture" id="profilePicture10" value="space-man.png">
+                            <label class="form-check-label profile-icon-label" for="profilePicture10">
+                                <img src="/icons/space-man.png" class="profile-icon" alt="icon3"/>
+                            </label>
+                        </div>
+                        <!-- Add more icons as needed -->
+                    </div>
+                </div>
+                <div class="mb-3 text-center">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </div>
+            </form>
+            <p style="text-align: center">Have An Account? Click <a style="text-decoration: none; color: white; font-weight: bolder" class="hoverable" th:href="@{/login}">Here</a> To Login</p>
+        </div>
+    </div>
+</div>
+
+
+
+
+<footer class="footer">
+    <div class="container" style="font-family: sans-serif;">
+        <div class="row">
+            <div class="col-lg-6">
+                <p>Contact Us:</p>
+                <p>Email: <a href="mailto:info@readwell.com" class="hoverable">readwell-library@outlook.com</a></p>
+                <p>Phone: +27 (65) 510-9157</p>
+            </div>
+            <div class="col-lg-6">
+                <p>Follow Us or Chat With Us:</p>
+                <a href="https://wa.me/+27655109157" class="hoverable"><img src="/images/whatsapp_icon.png" style="width: 50px; height: 50px" alt="whatsapp"></a>
+                <a href="https://web.facebook.com/koketso.prince.65510" class="hoverable"><img src="/images/facebook_icon.png" style="width: 50px; height: 50px" alt="facebook"></a>
+                <a href="https://www.instagram.com/koketsomokgoko_ult/?hl=en" class="hoverable"><img src="/images/instagram_icon.png" style="width: 50px; height: 50px" alt="Instagram"></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script>
+    window.addEventListener('load', function() {
+        var overlay = document.getElementById('overlay');
+        overlay.style.display = 'none';
+    });
+</script>
+</body>
+</html>

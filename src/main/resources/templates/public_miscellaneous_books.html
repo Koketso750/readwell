@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Public Miscellaneous Books Page</title>
+    <link rel="icon" type="image/png" href="/images/logo1.png">
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <style>
+        .navbar-dark {
+            background-color: #343a40;
+        }
+
+        .navbar-dark .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .navbar-dark .navbar-nav .nav-link:hover {
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .navbar-brand {
+            margin-right: auto;
+        }
+
+        .logo {
+            width: 60px;
+            height: 40px;
+        }
+        .footer {
+            background-color: #343a40;
+            color: #ffffff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .footer a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+        .hoverable:hover {
+            transform: scale(1.1);
+        }
+        body{
+            background-color: #666f78;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="file"]:focus {
+            outline: none;
+            border-color: #343a40;
+            box-shadow: 0 0 20px #343a40;
+            transition: all 0.3s ease;
+        }
+
+        .registration-container {
+            position: relative;
+            background-image: url("/images/banner_image2.jpg"); /* Replace 'your-background-image-url.jpg' with your actual image URL */
+            background-size: 100% auto;
+            background-position: center;
+        }
+
+        .registration-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9));
+            z-index: 1;
+        }
+
+        .registration-form {
+            position: relative;
+            z-index: 1;
+        }
+
+        .registration-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(5px); /* Apply blur effect only to the background image */
+        }
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+    </style>
+</head>
+<body>
+<div class="overlay" id="overlay">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden"></span>
+    </div>
+</div>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+        <a th:href="@{/index}" class="navbar-brand"><img class="logo" src="/images/logo1.png" alt="logo"/></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/index}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/login}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/users/new}">Register</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/public/books}">Public Books</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container registration-container" style="padding: 180px;">
+    <div class="row justify-content-center" style="color: white;">
+        <div class="col-md-10 text-center">
+            <img src="/images/miscellaneous_icon.png" style="width: 100px; height: 100px;">
+            <h1>Miscellaneous Books Available</h1>
+            <div class="list-group">
+                <!-- Loop through each book -->
+                <div th:each="book : ${books}" class="list-group-item" style="background-color: #666f78;">
+                    <div class="card" style="background-color: #343a40;">
+                        <div class="card-body d-flex justify-content-between align-items-center">
+                            <!-- Display book name -->
+                            <h5 class="card-title" th:text="${book.name}"></h5>
+                            <!-- Thymeleaf link to download the book -->
+                            <a th:href="@{'/book/' + ${book.id} + '/download'}" download="${book.name}.pdf" class="btn btn-danger">Download</a>
+                        </div>
+                        <p th:text="'Author: ' + ${book.author}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<footer class="footer">
+    <div class="container" style="font-family: sans-serif;">
+        <div class="row">
+            <div class="col-lg-6">
+                <p>Contact Us:</p>
+                <p>Email: <a href="mailto:info@readwell.com" class="hoverable">readwell-library@outlook.com</a></p>
+                <p>Phone: +27 (65) 510-9157</p>
+            </div>
+            <div class="col-lg-6">
+                <p>Follow Us or Chat With Us:</p>
+                <a href="https://wa.me/+27655109157" class="hoverable"><img src="/images/whatsapp_icon.png" style="width: 50px; height: 50px" alt="whatsapp"></a>
+                <a href="https://web.facebook.com/koketso.prince.65510" class="hoverable"><img src="/images/facebook_icon.png" style="width: 50px; height: 50px" alt="facebook"></a>
+                <a href="https://www.instagram.com/koketsomokgoko_ult/?hl=en" class="hoverable"><img src="/images/instagram_icon.png" style="width: 50px; height: 50px" alt="Instagram"></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script>
+    window.addEventListener('load', function() {
+        var overlay = document.getElementById('overlay');
+        overlay.style.display = 'none';
+    });
+</script>
+</body>
+</html>
