@@ -107,6 +107,43 @@
             z-index: 1000;
         }
 
+        .forgot-password-link {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password-link:hover {
+            color: #f8f9fa; /* Lighter shade of white for hover effect */
+        }
+
+        .register-link {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .register-link:hover {
+            color: #f8f9fa; /* Lighter shade of white for hover effect */
+        }
+
+        @keyframes dance {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        #login-icon {
+            animation: dance 2s ease infinite;
+        }
+
     </style>
 </head>
 <body>
@@ -146,7 +183,7 @@
             <div th:if="${message}" th:classappend="${message == 'Successfully Registered!' ? 'alert alert-success' : (message == 'Password updated successfully!' ? 'alert alert-success' : 'alert alert-danger')}" style="text-align: center; width: 100%;">
                 <p th:text="${message}"></p>
             </div>
-            <img src="/images/login.png" style="max-width: 100px; max-height: 100px; margin-left: 135px;" alt="login_icon"/>
+            <img id="login-icon" src="/images/login.png" style="max-width: 100px; max-height: 100px; margin-left: 135px;" alt="login_icon"/>
             <h2 class="mb-3 text-center" style="text-align: center">Login</h2> <!-- Center align login heading -->
             <form th:action="@{/Dashboard/Page}" method="POST">
                 <div class="mb-3 text-center">
@@ -158,14 +195,13 @@
                     <input type="password" class="form-control" id="surname" name="password" required>
                 </div>
                 <div class="text-center">
-                    <p>Forgot your password? Click <a style="text-decoration: none; color: white; font-weight: bolder" class="hoverable" th:href="@{/forgot-password}">here</a> to reset it.</p>
+                    <p><a th:href="@{/forgot-password}" class="forgot-password-link">Forgot your password?</a></p>
                 </div>
                 <div class="mb-3 text-center">
                     <button type="submit" class="btn btn-dark">Login</button>
                 </div>
             </form>
-
-            <p style="text-align: center">You Don't Have An Account? Click <a style="text-decoration: none; color: white; font-weight: bolder; margin-top: 50px" class="hoverable" th:href="@{/users/new}">here</a> To Register.</p>
+            <p style="text-align: center">Don't have an account? <a th:href="@{/users/new}" class="register-link">Register here</a>.</p>
         </div>
     </div>
 
@@ -178,7 +214,7 @@
         <div class="row">
             <div class="col-lg-6">
                 <p>Contact Us:</p>
-                <p>Email: <a href="mailto:info@readwell.com" class="hoverable">readwell-library@outlook.com</a></p>
+                <p>Email: <a href="mailto:readwell-library@outlook.com" class="hoverable">readwell-library@outlook.com</a></p>
                 <p>Phone: +27 (65) 510-9157</p>
             </div>
             <div class="col-lg-6">

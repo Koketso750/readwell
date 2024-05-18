@@ -114,14 +114,27 @@
         .dropdown-item:hover {
             background-color: #666f78;
         }
+        @keyframes dance {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        #user-photo,
+        .button-icon {
+            animation: dance 2s ease infinite;
+        }
+
     </style>
 </head>
 <body>
-<div class="overlay" id="overlay">
-    <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden"></span>
-    </div>
-</div>
+
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
         <a th:href="@{/index}" class="navbar-brand"><img class="logo" src="/images/logo1.png" alt="logo"/></a>
@@ -132,18 +145,17 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ml-auto" th:if="${user != null}">
                 <li class="nav-item dropdown">
                     <div class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button"
                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img th:src="'/icons/' + ${user.photo}" style="max-width: 50px; max-height: 50px">
-                        <!-- Name and Surname -->
+
+                        <img id="user-photo" th:src="'/icons/' + ${user.photo}" style="max-width: 50px; max-height: 50px;">
                         <span class="name-surname" th:text="${user.name + ' ' + user.surname}">John Doe</span>
                     </div>
                     <!-- Dropdown Menu -->
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a style="color: white;" class="dropdown-item" href="#">Edit Profile</a>
-                        <a style="color: white;" class="dropdown-item" href="#">Settings</a>
+                        <a style="color: white;" class="dropdown-item" th:href="@{/delete/account}">Delete Account</a>
                         <div class="dropdown-divider"></div>
                         <a style="color: white;" class="dropdown-item" th:href="@{/index}">Logout</a>
                     </div>
@@ -163,15 +175,15 @@
                 <form th:action="@{/addbook}" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="name">Book Name:</label>
-                        <input type="text" class="form-control" id="name" name="name">
+                        <input type="text" class="form-control" id="name" name="name" required>
                     </div>
                     <div class="form-group">
                         <label for="author">Author:</label>
-                        <input type="text" class="form-control" id="author" name="author">
+                        <input type="text" class="form-control" id="author" name="author" required>
                     </div>
                     <div class="form-group">
                         <label for="availability">Availability:</label>
-                        <select id="availability" name="availability" class="form-control">
+                        <select id="availability" name="availability" class="form-control" required>
                             <option value="">Select Availability Of The Book</option>
                             <option value="Public">Public</option>
                             <option value="Private">Private</option>
@@ -179,7 +191,7 @@
                     </div>
                     <div class="form-group">
                         <label for="category">Category:</label>
-                        <select id="category" name="category" class="form-control">
+                        <select id="category" name="category" class="form-control" required>
                             <optgroup label="Choose Category">
                             <option value="Fiction">Fiction</option>
                             <option value="Non-Fiction">Non-Fiction</option>
@@ -191,7 +203,7 @@
 
                     <div class="form-group">
                         <label for="pdfFile">PDF File:</label>
-                        <input type="file" class="form-control" id="pdfFile" name="pdfFile" accept="pdfFile/*">
+                        <input type="file" class="form-control" id="pdfFile" name="pdfFile" accept="pdfFile/*" required>
                     </div>
                     <div class="mb-3 text-center">
                         <button type="submit" class="btn btn-lg btn-danger">Add Book</button>
@@ -203,14 +215,12 @@
 
 </div>
 
-
-
 <footer class="footer">
     <div class="container" style="font-family: sans-serif;">
         <div class="row">
             <div class="col-lg-6">
                 <p>Contact Us:</p>
-                <p>Email: <a href="mailto:info@readwell.com" class="hoverable">readwell-library@outlook.com</a></p>
+                <p>Email: <a href="mailto:readwell-library@outlook.com" class="hoverable">readwell-library@outlook.com</a></p>
                 <p>Phone: +27 (65) 510-9157</p>
             </div>
             <div class="col-lg-6">

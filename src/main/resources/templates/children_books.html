@@ -110,18 +110,27 @@
         .dropdown-menu {
             background-color: #343a40;
         }
-
-        .dropdown-item:hover {
-            background-color: #666f78;
+        @keyframes dance {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
         }
+
+        #user-photo,
+        .button-icon {
+            animation: dance 2s ease infinite;
+        }
+
     </style>
 </head>
 <body>
-<div class="overlay" id="overlay">
-    <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden"></span>
-    </div>
-</div>
+
 <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
         <a th:href="@{/index}" class="navbar-brand"><img class="logo" src="/images/logo1.png" alt="logo"/></a>
@@ -132,18 +141,17 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ml-auto" th:if="${user != null}">
                 <li class="nav-item dropdown">
                     <div class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button"
                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img th:src="'/icons/' + ${user.photo}" style="max-width: 50px; max-height: 50px">
-                        <!-- Name and Surname -->
+
+                        <img id="user-photo" th:src="'/icons/' + ${user.photo}" style="max-width: 50px; max-height: 50px;">
                         <span class="name-surname" th:text="${user.name + ' ' + user.surname}">John Doe</span>
                     </div>
                     <!-- Dropdown Menu -->
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a style="color: white;" class="dropdown-item" href="#">Edit Profile</a>
-                        <a style="color: white;" class="dropdown-item" href="#">Settings</a>
+                        <a style="color: white;" class="dropdown-item" th:href="@{/delete/account}">Delete Account</a>
                         <div class="dropdown-divider"></div>
                         <a style="color: white;" class="dropdown-item" th:href="@{/index}">Logout</a>
                     </div>
@@ -186,7 +194,7 @@
         <div class="row">
             <div class="col-lg-6">
                 <p>Contact Us:</p>
-                <p>Email: <a href="mailto:info@readwell.com" class="hoverable">readwell-library@outlook.com</a></p>
+                <p>Email: <a href="mailto:readwell-library@outlook.com" class="hoverable">readwell-library@outlook.com</a></p>
                 <p>Phone: +27 (65) 510-9157</p>
             </div>
             <div class="col-lg-6">

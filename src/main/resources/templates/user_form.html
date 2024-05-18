@@ -160,6 +160,32 @@
             animation-iteration-count: 1;
         }
 
+        .login-link {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .login-link:hover {
+            color: #f8f9fa; /* Lighter shade of white for hover effect */
+        }
+        @keyframes dance {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        #register-icon {
+            animation: dance 2s ease infinite;
+        }
+
     </style>
 </head>
 <body>
@@ -197,7 +223,7 @@
 <div class="container registration-container" style="padding: 180px;">
     <div class="row justify-content-center" style="color: white">
         <div class="col-md-5">
-            <img src="/images/register.png" style="max-width: 100px; max-height: 100px; margin-left: 120px;" alt="register_icon"/>
+            <img id="register-icon" src="/images/register.png" style="max-width: 100px; max-height: 100px; margin-left: 120px;" alt="register_icon"/>
             <h2 class="mb-3" style="text-align: center">Registration</h2>
             <form th:action="@{/register}" method="post" enctype="multipart/form-data">
                 <div class="mb-3 text-center">
@@ -286,7 +312,7 @@
                     <button type="submit" class="btn btn-primary">Register</button>
                 </div>
             </form>
-            <p style="text-align: center">Have An Account? Click <a style="text-decoration: none; color: white; font-weight: bolder" class="hoverable" th:href="@{/login}">Here</a> To Login</p>
+            <p style="text-align: center">Have an account? Click <a th:href="@{/login}" class="login-link">here</a> to login.</p>
         </div>
     </div>
 </div>
@@ -299,7 +325,7 @@
         <div class="row">
             <div class="col-lg-6">
                 <p>Contact Us:</p>
-                <p>Email: <a href="mailto:info@readwell.com" class="hoverable">readwell-library@outlook.com</a></p>
+                <p>Email: <a href="mailto:readwell-library@outlook.com" class="hoverable">readwell-library@outlook.com</a></p>
                 <p>Phone: +27 (65) 510-9157</p>
             </div>
             <div class="col-lg-6">

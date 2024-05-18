@@ -17,16 +17,6 @@
             filter: blur(1px);
         }
 
-        .banner-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7));
-            z-index: 1;
-        }
-
         .banner-content {
             position: absolute;
             top: 50%;
@@ -94,6 +84,65 @@
         .hoverable:hover {
              transform: scale(1.1);
          }
+
+        .banner-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Initial gradient */
+            background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9));
+            z-index: 1;
+            /* Animation */
+            animation: heartbeat 6s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% {
+                opacity: 0.9;
+            }
+            50% {
+                opacity: 0.6;
+            }
+            100% {
+                opacity: 0.9;
+            }
+        }
+
+        .custom-red {
+            background-color: red;
+            border-color: red;
+        }
+
+        .custom-dark-orange {
+            background-color: #cc6600; /* Adjusted shade of orange */
+            border-color: #cc6600; /* Matching border color */
+        }
+
+
+        @keyframes dance {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-10px) rotate(-5deg);
+            }
+            50% {
+                transform: translateY(0) rotate(0deg);
+            }
+            75% {
+                transform: translateY(10px) rotate(5deg);
+            }
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+        }
+
+        #dancing-books {
+            animation: dance 2s ease infinite alternate;
+        }
+
     </style>
 </head>
 <body>
@@ -133,12 +182,17 @@
     <div class="banner-overlay"></div>
     <div class="banner-content">
         <div class="container" style="text-align: center; margin-right: 100px;">
-            <img src="/images/books.png" style="max-width: 100px; max-height: 100px;" alt="reading_book_icon"/>
+            <img id="dancing-books" src="/images/books.png" style="max-width: 100px; max-height: 100px;" alt="reading_book_icon"/>
             <h1 style="font-family: sans-serif; font-weight: bold; font-size: 70px;">ReadWell</h1>
             <h4 style="font-family: sans-serif;">Your Personal Library</h4>
             <h5 style="font-family: sans-serif;">Create your own personal library where you can upload and manage your books privately, or share them with the public</h5>
-            <a th:href="@{/users/new}"><button type="button" class="btn btn-success m-2 hoverable">Register</button></a>
-            <a th:href="@{/public/books}"><button type="button" class="btn btn-danger m-2 hoverable">View Books Available</button></a>
+            <a th:href="@{/users/new}">
+                <button type="button" class="btn btn-danger m-2 hoverable custom-red" >Register</button>
+            </a>
+            <a th:href="@{/public/books}">
+                <button type="button" class="btn btn-danger m-2 hoverable custom-dark-orange">View Books Available</button>
+            </a>
+
         </div>
     </div>
 </div>
@@ -148,7 +202,7 @@
         <div class="row">
             <div class="col-lg-6">
                 <p>Contact Us:</p>
-                <p>Email: <a href="mailto:info@readwell.com" class="hoverable">readwell-library@outlook.com</a></p>
+                <p>Email: <a href="mailto:readwell-library@outlook.com" class="hoverable">readwell-library@outlook.com</a></p>
                 <p>Phone: +27 (65) 510-9157</p>
             </div>
             <div class="col-lg-6">
